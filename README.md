@@ -1,90 +1,50 @@
-# Weather App
+# Welcome to your Expo app 👋
 
-This is a React Native application that fetches and displays the weather data for the user's current location. Users can also select and view weather data for predefined cities.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-![WhatsApp Image 2024-06-23 at 09 19 21_93fbfa70](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/bbb92da3-e1bc-4bca-aaae-88ae19780063)
+## Get started
 
+1. Install dependencies
 
-![WhatsApp Image 2024-06-23 at 09 19 21_82ab33d5](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/763cc7f2-68e6-42a5-83ff-90732191c151)
+   ```bash
+   npm install
+   ```
 
+2. Start the app
 
-![WhatsApp Image 2024-06-23 at 09 19 21_9c0057f3](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/fa1e437a-8170-4853-9d4c-b280c8cde5e4)
+   ```bash
+    npx expo start
+   ```
 
+In the output, you'll find options to open the app in a
 
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Features
+## Get a fresh project
 
-- Fetches weather data based on user's current location.
-- Displays weather data including city name, temperature, and weather description.
-- Indicates whether it is daytime or nighttime with a background color change.
-- Allows users to add a city and fetch weather data for that city using a modal interface.
+When you're ready, run:
 
-## Installation
+```bash
+npm run reset-project
+```
 
-### Prerequisites
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-- Node.js and npm/yarn installed
-- Expo CLI installed
-- OpenWeatherMap API key
+## Learn more
 
-### Steps
+To learn more about developing your project with Expo, look at the following resources:
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/weather-app.git
-    cd weather-app
-    ```
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-    or
-    ```bash
-    yarn install
-    ```
+## Join the community
 
-3. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
-    ```env
-    API_KEY=your_openweathermap_api_key
-    ```
+Join our community of developers creating universal apps.
 
-4. Start the application:
-    ```bash
-    npm start
-    ```
-    or
-    ```bash
-    yarn start
-    ```
-
-## Usage
-
-1. Run the application on your emulator or physical device using Expo.
-2. Grant location permissions when prompted.
-3. The app will fetch and display the weather data for your current location.
-4. Click the "+" button to add a city. Select a city from the modal to fetch its weather data.
-
-## Code Structure
-
-- `Index.js`: The main component of the application.
-- Uses `useState` and `useEffect` hooks to manage state and side effects.
-- Fetches location and weather data using Expo Location and OpenWeatherMap API.
-- Displays weather data and handles city selection with a modal.
-
-## Dependencies
-
-- `react`: JavaScript library for building user interfaces.
-- `react-native`: Framework for building native apps using React.
-- `expo-location`: Expo module for accessing device location.
-- `expo`: Toolkit for building React Native apps.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-- [OpenWeatherMap](https://openweathermap.org/) for providing the weather data API.
-- [Expo](https://expo.dev/) for the excellent tools and services for React Native development.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
