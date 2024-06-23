@@ -1,6 +1,18 @@
 # React Native Weather App
 
+
 This is a React Native application that displays the current weather information for the user's location. The app also allows users to select a city from a predefined list and view its weather information.
+
+![WhatsApp Image 2024-06-23 at 09 19 21_fbeecd9a](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/b45429a2-0e64-4809-9286-2ec691c0e284)
+
+
+![WhatsApp Image 2024-06-23 at 09 19 21_27e0a72b](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/36115264-b0e0-4457-a88b-63ed83be9281)
+
+
+
+![WhatsApp Image 2024-06-23 at 09 19 21_1ea3d3b1](https://github.com/ksvskarthik7/Weather-Android-app/assets/114343100/cc2628a0-b4c6-420d-838e-e222d61101e3)
+
+
 
 ## Features
 
