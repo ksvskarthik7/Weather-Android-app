@@ -1,50 +1,64 @@
-# Welcome to your Expo app 👋
+# React Native Weather App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native application that displays the current weather information for the user's location. The app also allows users to select a city from a predefined list and view its weather information.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Current Location Weather**: Fetches and displays weather data based on the user's current location.
+- **City Weather Selection**: Allows users to select a city from a predefined list (London, New York, Tokyo, Paris) to view its weather information.
+- **Daytime/Nighttime Background**: Changes the background color based on whether it is daytime or nighttime at the user's location.
+- **Error Handling**: Displays error messages when location or weather data cannot be fetched.
 
-   ```bash
+## Installation
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/yourusername/react-native-weather-app.git
+   cd react-native-weather-app
+   ```
+
+2. **Install dependencies:**
+
+   ```sh
    npm install
    ```
 
-2. Start the app
+3. **Add your OpenWeatherMap API key:**
 
-   ```bash
-    npx expo start
+   - Replace `API_KEY` with your OpenWeatherMap API key in the `fetchWeatherData` and `fetchWeatherDataForCity` functions.
+
+## Usage
+
+1. **Run the app:**
+
+   ```sh
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+2. **Follow the instructions to launch the app on an emulator or a physical device using Expo Go.**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Code Overview
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### `Index.js`
 
-## Get a fresh project
+- **State Variables:**
+  - `weatherData`: Stores the fetched weather data.
+  - `errorMessage`: Stores any error messages.
+  - `isDaytime`: Tracks if it's daytime or nighttime.
+  - `modalVisible`: Controls the visibility of the modal for selecting cities.
+  - `selectedCity`: Stores the selected city data.
 
-When you're ready, run:
+- **Functions:**
+  - `getLocationAndFetchWeather`: Requests location permissions, fetches the user's location, and retrieves weather data.
+  - `fetchWeatherData`: Fetches weather data using latitude and longitude.
+  - `fetchNativeTime`: Determines if it's daytime or nighttime based on the current time.
+  - `handleAddCity`: Opens the modal for selecting a city.
+  - `handleSelectCity`: Fetches weather data for the selected city and closes the modal.
+  - `fetchWeatherDataForCity`: Fetches weather data for a specified city name.
 
-```bash
-npm run reset-project
-```
+### `styles`
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Contains styles for the app components using `StyleSheet.create`.
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
