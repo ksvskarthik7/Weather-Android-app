@@ -1,105 +1,187 @@
-import React, { useEffect,useState } from 'react';
-import './App.css';
-//no need of importing images => since the images are in public folder
 
-//Main App
-function App() {
- 
-  // taking input value
-  const [inputvalue,setinputvalue]=useState('')
-  const [cityname,setcityname] = useState('berlin');
-  const [humid,sethumid]=useState(50)
-  const [wind,setwindspeed]=useState(15)
-  const [weather,setweathertype] = useState('clouds')
-  //to display only input at start
-  let [roar,setroar]=useState(false)
-  //weather images
-  //to chagne src link of images
-  const weatherimages ={
-    'Clear': 'images/clear.png',
-    'Clouds': 'images/clouds.png',
-    'Rain': 'images/rain.png',
-    'Drizzle': 'images/rain.png',
-    'Wind': 'images/wind.png',
-    'Snow': 'images/snow.png',
-    'Mist': 'images/mist.png',
-    'Humidity': 'images/humidity.png',
-    'Haze':'images/mist.png'
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
+import * as Location from 'expo-location';
+
+export default function Index() {
+  const [weatherData, setWeatherData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isDaytime, setIsDaytime] = useState(false); // State to track if it's daytime or nighttime
+  const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
+  const [selectedCity, setSelectedCity] = useState(null); // State to store selected city data
+
+ const API_KEY = '7ec58081e577971d009b3f1d3ef70631';
+  
+  useEffect(() => {
+    getLocationAndFetchWeather();
+    fetchNativeTime();
+  }, []);
+
+  const getLocationAndFetchWeather = async () => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        throw new Error('Location permission not granted');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      
+      fetchWeatherData(latitude, longitude);
+    } catch (error) {
+      console.error('Error fetching location and weather data:', error.message);
+      setErrorMessage('Failed to fetch location and weather data');
+    }
+  };
+
+  const fetchWeatherData = async (latitude, longitude) => {
+    const API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`;
+
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) {
+        throw new Error('Weather data not available');
+      }
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error.message);
+      setErrorMessage('Failed to fetch weather data');
+    }
+  };
+
+  const fetchNativeTime = () => {
+    const currentTime = new Date().getHours();
+    setIsDaytime(currentTime >= 6 && currentTime < 18); // Assume daytime between 6 AM to 6 PM (adjust as needed)
+  };
+
+  const handleAddCity = () => {
+    setModalVisible(true);
+  };
+
+  const handleSelectCity = (cityName) => {
+    // For simplicity, you can directly fetch data for London when selected
+    fetchWeatherDataForCity(cityName);
+    setModalVisible(false);
+  };
+
+  const fetchWeatherDataForCity = async (cityName) => {
+    // Implement API call to fetch weather data for the selected city
+    // Example: Fetch weather data for cityName and update state
+    const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`;
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    setWeatherData(data);
+
+    setSelectedCity(null); // Reset selected city if needed
+  };
+
+  if (errorMessage) {
+    return (
+      <View style={styles.container}>
+        <Text>{errorMessage}</Text>
+      </View>
+    );
   }
 
-  //getting temp from api
-  const [temp,settemp]=useState(0)
-  
-  const Apikey = '7ec58081e577971d009b3f1d3ef70631'
-  
-  //fetch again evrytime city name changes
-  useEffect(() => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${Apikey}&units=metric`
+  if (!weatherData) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
-    //fetching data
-    async function fetchWeather() {
-      const response = await fetch(url)
-      if (response.ok){ //same as response.status===200
-        console.log('fetch is workingfine')
-      }else{
-        console.log('fetch not working fine')
-      }
-      const data = await response.json()
-      console.log(data)
-      
-      try{
-        settemp(data.main.temp);
-      }
-      catch(e){
-        console.log('city not found',e)
-        throw Error('city name wrong at fetch')
-      }
-      
-      sethumid(data.main.humidity)
-      setwindspeed(data.wind.speed)
-      setweathertype(data.weather[0].main)
-      console.log(data.weather[0].main)
-    }
+  // Determine background color based on isDaytime state
+  const backgroundColor = isDaytime ? '#b3e0ff' : '#00264d';
 
-    fetchWeather();
-
-    //set input to blank after finishing
-    setinputvalue('')
-    
-  },[cityname])
-  
- 
   return (
-   
-    <div className="card">
-      <div className='search'>
-        <input type='text' placeholder='enter city name' spellCheck='false' value={inputvalue} onChange={(e)=>setinputvalue(e.target.value)}/>
-        <button onClick={()=>  {setcityname(inputvalue); setroar(true)} }> <img src='images/search.png'></img></button>
-      </div>
-       {roar && (<><div className='weather'>
-        <img src={weatherimages[weather]}></img>
-        <h1>{Math.round(temp)}°C</h1>
-        <h2 className='city'>{cityname}</h2>
-      </div><div className='details'>
-          <div className='col'>
-            <img src='images/humidity.png'></img>
-            <div>
-              <p className='humidity'>{humid}%</p>
-              <p>Humidity</p>
-            </div>
-          </div>
-          <div className='col'>
-            <img src='images/wind.png'></img>
-            <div>
-              <p className='wind'>{wind} km/h</p>
-              <p>Windspeed</p>
-            </div>
-          </div>
-        </div></>) }
-
-    </div>
+    <View style={[styles.container, { backgroundColor }]}>
+      {weatherData && (
+        <>
+          <Text style={styles.city}>{weatherData.name}</Text>
+          <Text style={styles.temperature}>{weatherData.main.temp}°C</Text>
+          <Text style={styles.description}>{weatherData.weather[0].description}</Text>
+        </>
+      )}
   
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCity}>
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity>
+  
+      {/* Modal for adding a new city */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={['London', 'New York', 'Tokyo', 'Paris']} // Example cities to select
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.cityButton} onPress={() => handleSelectCity(item)}>
+                <Text style={styles.cityButtonText}>{item}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item}
+          />
+        </View>
+      </Modal>
+    </View>
   );
+  
 }
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  city: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  temperature: {
+    fontSize: 48,
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#ff6347',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButtonText: {
+    fontSize: 32,
+    color: '#fff',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cityButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    marginVertical: 10,
+    borderRadius: 10,
+  },
+  cityButtonText: {
+    fontSize: 18,
+  },
+});
